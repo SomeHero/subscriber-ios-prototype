@@ -31,8 +31,6 @@
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:hostURL,urlstr]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
-    //parameters = [parameters stringByReplacingOccurrencesOfString:@"\r\n" withString:@"<br/>"];
-    //NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     NSData *data = [parameters dataUsingEncoding:NSUTF8StringEncoding];
@@ -49,15 +47,13 @@
          }
          else
          {
-            //NSLog(@"%@",Stringfromdata);
              if (data!=nil)
              {
-
                  NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                 NSLog(@"%@",dict);
                  if (dict!=nil)
                  {
-//                     NSLog(@"%@",dict);
+
                      if (delegate!=nil)
                      {
                          [delegate didReceiveResponseWithDictionary:dict AndURL:urlstr];

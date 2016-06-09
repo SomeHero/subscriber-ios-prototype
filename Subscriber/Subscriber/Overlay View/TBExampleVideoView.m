@@ -223,10 +223,6 @@
             _videoView.frame = _videoViewHolder.frame;
             _videoViewHolder.center = CGPointMake(self.frame.size.width/2,
                                                   self.frame.size.height/2);
-            
-           
-
-    
 
         } else {
             NSLog(@"VideoView frame can't be set without known video "

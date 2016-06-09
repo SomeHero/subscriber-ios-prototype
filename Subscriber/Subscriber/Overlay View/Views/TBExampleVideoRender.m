@@ -79,8 +79,6 @@
         _glkView.delegate = self;
         _glkView.layer.masksToBounds = YES;
         [self addSubview:_glkView];
-        AppDelegate *appd = (AppDelegate*)[[UIApplication sharedApplication]delegate];
-        appd._screenshotview = _glkView;
         _frameLock = [[NSLock alloc] init];
         _renderingEnabled = YES;
         _clearRenderer = 0;
@@ -313,17 +311,6 @@
     // GLKViewDelegate method implemented above.
     if ([_delegate needsRendererUpdate]) {
         [_glkView setNeedsDisplay];
-        
-        
-        //if screenshot is yes then save the glkview
-            AppDelegate *appd = (AppDelegate*)[[UIApplication sharedApplication]delegate];
-            if (appd.screenshotstatus == YES) {
-                
-                appd._screenshotview = [[GLKView alloc] init];
-                appd._screenshotview = _glkView;
-                appd.screenshotstatus = NO;
-        }
-        
     }
 }
 

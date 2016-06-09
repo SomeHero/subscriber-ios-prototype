@@ -13,9 +13,9 @@
 @interface ViewController : UIViewController
 
 /*! Login with facebook  button. */
-@property (weak, nonatomic) IBOutlet UIButton *myLoginButton;
+//@property (weak, nonatomic) IBOutlet UIButton *myLoginButton;
 
 /*! Once the button is clicked, show the login dialog and move to the request view.*/
--(IBAction)loginButtonClicked:(id)sender;
+//-(IBAction)loginButtonClicked:(id)sender;
 @end
 

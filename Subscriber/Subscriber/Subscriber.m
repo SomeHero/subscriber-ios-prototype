@@ -7,9 +7,10 @@
 //
 
 #import "Subscriber.h"
-#import "AppDelegate.h"
+
 #define widgetHeight  [UIScreen mainScreen].bounds.size.height-100
 #define widgetWidth  [UIScreen mainScreen].bounds.size.width
+#define TimeStamp [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000]
 @interface Subscriber ()
 
 @end
@@ -51,12 +52,14 @@ static bool subscribeToSelf = NO;
     btnScreenshot = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"screen_captureic"] style:UIBarButtonItemStylePlain target:self action:@selector(screenshot:)];
     btnScreenshot.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = btnScreenshot;
-    
   
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
+    [myfun showGlobalProgressHUDWithTitle:@""];
+    
+    disconnect = 0;
     
     self.title = @"Subscriber";
     
@@ -82,6 +85,9 @@ static bool subscribeToSelf = NO;
                                                  name:@"stopvideo"
                                                object:nil];
     
+   
+
+    
     myfun = [[MyFunction alloc]init];
     myfun.delegate = self;
 
@@ -103,9 +109,6 @@ static bool subscribeToSelf = NO;
     
     [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"ispresented"];
     [[NSUserDefaults standardUserDefaults]synchronize];
-    
-    NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationMaskPortrait];
-    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
 
 }
 
@@ -113,6 +116,8 @@ static bool subscribeToSelf = NO;
 
 - (void)doConnect
 {
+    [myfun dismissGlobalHUD];
+    [myfun showGlobalProgressHUDWithTitle:@"Connecting"];
     OTError *error = nil;
     [_session connectWithToken:kToken error:&error];
     if (error)
@@ -201,17 +206,18 @@ static bool subscribeToSelf = NO;
 
 }
 #pragma mark - Helper Methods
-//method to stop the video
+
 -(void)stopvideo{
     [myfun dismissGlobalHUD];
     [self StopTimer];
     [self stopsall];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"stopvideo" object:nil];
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-//method called when all Done button is pressed
+
 - (IBAction)endCallAction:(UIButton *)button
 {
     
@@ -222,14 +228,12 @@ static bool subscribeToSelf = NO;
     
 }
 
-//method to start the timer
 -(void) StartTimer
 {
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 }
 
-//Event called every time the NSTimer ticks.
 - (void)timerTick:(NSTimer *)timer
 {
     timeSec++;
@@ -241,7 +245,7 @@ static bool subscribeToSelf = NO;
     //Format the string 00:00
     NSString* timeNow = [NSString stringWithFormat:@"%02d:%02d", timeMin, timeSec];
     //Display on your label
-    //[timeLabel setStringValue:timeNow];
+   
     _lbltimer.text= timeNow;
     
     if ([_lbltimer.text isEqualToString:@"30:00"]) {
@@ -250,7 +254,7 @@ static bool subscribeToSelf = NO;
     }
 }
 
-//method to stop the timer
+
 - (void) StopTimer
 {
     [timer invalidate];
@@ -264,25 +268,32 @@ static bool subscribeToSelf = NO;
     _lbltimer.text= timeNow;
 }
 
-//method called to take the screenshot of the video
+
 #pragma mark - screenshot
 -(IBAction)screenshot:(id)sender{
-    [myfun showGlobalProgressHUDWithTitle:@""];
+    UIView* screenCapture = [_subscriber.view
+                             snapshotViewAfterScreenUpdates:YES];
+    [self.view addSubview:screenCapture];
     
-    AppDelegate *appd = (AppDelegate*)[[UIApplication sharedApplication]delegate];
-    appd.screenshotstatus = YES;
+    UIGraphicsBeginImageContextWithOptions(_subscriber.view.bounds.size,
+                                           NO, [UIScreen mainScreen].scale);
+    [self.view drawViewHierarchyInRect:_subscriber.view.bounds
+               afterScreenUpdates:YES];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
     
-    //we get the screenshot from glview that we get in tbexamplevideorender class and save it in the gallery
-    UIImage *snapShotImage = [(GLKView *)appd._screenshotview snapshot];
-    UIImageWriteToSavedPhotosAlbum(snapShotImage, nil, nil, nil);
+    //save image to document directory
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    [myfun dismissGlobalHUD];
-}
-
-
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
+    NSString *savedImagePath = [documentsDirectory stringByAppendingPathComponent:TimeStamp];
+    NSData *imageData = UIImagePNGRepresentation(image);
+    [imageData writeToFile:savedImagePath atomically:NO];
+    
+    [screenCapture removeFromSuperview];
+    
+    
+    [screenCapture removeFromSuperview];
 }
 
 # pragma mark - My function Delegate method to get the response of api
@@ -295,12 +306,14 @@ static bool subscribeToSelf = NO;
         [self stopsall];
         
         [[NSNotificationCenter defaultCenter] removeObserver:self name:@"stopvideo" object:nil];
+       
         [self.navigationController popViewControllerAnimated:YES];
         
     }
     else{
         
         [[NSNotificationCenter defaultCenter] removeObserver:self name:@"stopvideo" object:nil];
+        
         [self.navigationController popViewControllerAnimated:YES];
         
     }
@@ -351,7 +364,8 @@ static bool subscribeToSelf = NO;
 - (void)session:(OTSession*)mySession
   streamCreated:(OTStream *)stream
 {
-     [myfun showGlobalProgressHUDWithTitle:@"Begin Subscribing"];
+    [myfun dismissGlobalHUD];
+    [myfun showGlobalProgressHUDWithTitle:@"Begin Subscribing"];
     NSLog(@"session streamCreated (%@)", stream.streamId);
     
     // Step 3a: (if NO == subscribeToSelf): Begin subscribing to a stream we
@@ -432,6 +446,7 @@ didFailWithError:(OTError*)error
 {
     NSLog(@"publisher didFailWithError %@", error);
     [self cleanupPublisher];
+    [self doConnect];
 }
 
 - (void)     session:(OTSession*)session

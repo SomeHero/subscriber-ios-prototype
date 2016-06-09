@@ -12,6 +12,7 @@
 		4606E9641CF876D6001B3692 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4606E9621CF876D6001B3692 /* FBSDKLoginKit.framework */; };
 		4606E9661CF876E4001B3692 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4606E9651CF876E4001B3692 /* Bolts.framework */; };
 		460808171CF0324C0021B44F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 460808161CF0324C0021B44F /* ImageIO.framework */; };
+		464485411D06B0C400771FC8 /* AllMediaVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 464485401D06B0C400771FC8 /* AllMediaVC.m */; };
 		467FF0FC1CEDCA570016094D /* TBExamplePublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = 467FF0FB1CEDCA570016094D /* TBExamplePublisher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		46AD6AC21CEB0A4300BA03EA /* Subscriber.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AD6AC11CEB0A4300BA03EA /* Subscriber.m */; };
 		46AD6AC51CEB0ADE00BA03EA /* TBExampleSubscriber.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AD6AC41CEB0ADE00BA03EA /* TBExampleSubscriber.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -92,6 +93,8 @@
 		4606E9621CF876D6001B3692 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = DOCUMENTS/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		4606E9651CF876E4001B3692 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = DOCUMENTS/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
 		460808161CF0324C0021B44F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		4644853F1D06B0C400771FC8 /* AllMediaVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllMediaVC.h; sourceTree = "<group>"; };
+		464485401D06B0C400771FC8 /* AllMediaVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllMediaVC.m; sourceTree = "<group>"; };
 		467FF0FA1CEDCA570016094D /* TBExamplePublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBExamplePublisher.h; sourceTree = "<group>"; };
 		467FF0FB1CEDCA570016094D /* TBExamplePublisher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBExamplePublisher.m; sourceTree = "<group>"; };
 		46AD6AC01CEB0A4300BA03EA /* Subscriber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Subscriber.h; sourceTree = "<group>"; };
@@ -262,6 +265,8 @@
 				4606E95F1CF87635001B3692 /* Request.m */,
 				46AD6AC01CEB0A4300BA03EA /* Subscriber.h */,
 				46AD6AC11CEB0A4300BA03EA /* Subscriber.m */,
+				4644853F1D06B0C400771FC8 /* AllMediaVC.h */,
+				464485401D06B0C400771FC8 /* AllMediaVC.m */,
 				46C466591CE9FE5500F36F9F /* Main.storyboard */,
 				46C4665C1CE9FE5500F36F9F /* Assets.xcassets */,
 				46C4665E1CE9FE5500F36F9F /* LaunchScreen.storyboard */,
@@ -613,6 +618,7 @@
 				46AD6AC21CEB0A4300BA03EA /* Subscriber.m in Sources */,
 				46E889971CEAE2B7004BFCBA /* TBExampleUnderlayView.m in Sources */,
 				46E889951CEAE2B7004BFCBA /* TBExampleOverlayView.m in Sources */,
+				464485411D06B0C400771FC8 /* AllMediaVC.m in Sources */,
 				46E889561CEADA26004BFCBA /* MBProgressHUD.m in Sources */,
 				46AD6AC51CEB0ADE00BA03EA /* TBExampleSubscriber.m in Sources */,
 				46E889991CEAE2B7004BFCBA /* TBExampleVideoCapture.m in Sources */,
@@ -720,7 +726,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "3f06fc03-169b-4443-92e2-956ee8976a9e";
+				PROVISIONING_PROFILE = "59c003c8-142e-48e6-87b4-5d911d4f5ed9";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -759,7 +765,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "3f06fc03-169b-4443-92e2-956ee8976a9e";
+				PROVISIONING_PROFILE = "59c003c8-142e-48e6-87b4-5d911d4f5ed9";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -782,7 +788,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.abhinav.receivingapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3f06fc03-169b-4443-92e2-956ee8976a9e";
+				PROVISIONING_PROFILE = "59c003c8-142e-48e6-87b4-5d911d4f5ed9";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -804,7 +810,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.abhinav.receivingapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3f06fc03-169b-4443-92e2-956ee8976a9e";
+				PROVISIONING_PROFILE = "59c003c8-142e-48e6-87b4-5d911d4f5ed9";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
